@@ -7,7 +7,7 @@ auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 
 api = tweepy.API(auth)
 
-tweets = api.user_timeline(screen_name="nanase_andstaff", tweet_mode="extended", count=100)
+tweets = api.user_timeline(screen_name=NANASE_TWITTER, tweet_mode="extended", count=100)
 
 for tweet in tweets:
     # print(tweet.created_at, end=" ")
