@@ -1,4 +1,5 @@
 from config import *
+from twitter import action
 import tweepy
 from loguru import logger
 
@@ -13,9 +14,6 @@ for tweet in tweets:
     # print(tweet.created_at, end=" ")
     # print(tweet.id)
     # print(tweet.full_text)
-    try:
-        api.create_favorite(tweet.id)
-        api.retweet(tweet.id)
-        logger.info(f"favorite the status: {tweet.id}")
-    except tweepy.error.TweepError as e:
-        logger.exception(e)
+    action(api.create_favorite, tweet.id)
+    action(api.retweet, tweet.id)
+
