@@ -1,27 +1,13 @@
-from config import *
-from twitter import action
-import schedule, time
+from config import NANASE_TWITTER_NAME, NANASE_TWITTER_LAST_SEEN_ID, set_nanase_twitter_last_seen_id
+from twitter import TwitterClient
 
 def main():
-    tweets = API.user_timeline(screen_name=NANASE_TWITTER_NAME, tweet_mode="extended")
+    twitter_client = TwitterClient(NANASE_TWITTER_NAME)
+    unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(NANASE_TWITTER_LAST_SEEN_ID)
+    twitter_client.favorite_tweets(unseen_tweets)
+    twitter_client.retweet_tweets(unseen_tweets)
 
-    unseen_tweets = []
-    for tweet in tweets:
-        if NANASE_TWITTER_LAST_SEEN_ID == tweet.id:
-            break
-        else:
-            unseen_tweets.append(tweet)
-
-    if unseen_tweets:
-        # the first element is the last seen id
-        set_nanase_twitter_last_seen_id(unseen_tweets[0].id)
-
-        for tweet in unseen_tweets:
-            action(API.create_favorite, tweet.id, "favorite")
-            action(API.retweet, tweet.id, "retweet")
+    set_nanase_twitter_last_seen_id(unseen_tweets)
 
 if __name__ == '__main__':
-    schedule.every(1).hours.do(main)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    main()
