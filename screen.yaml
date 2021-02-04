@@ -1,5 +1,6 @@
-nanase_twitter: nanase_andstaff
-
+nanase_twitter:
+  last_seen_id: 1357192190242426885
+  name: nanase_andstaff
 work_related_twitter:
-  - nonno_staff
-  - gutan_ktv
+- nonno_staff
+- gutan_ktv

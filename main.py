@@ -1,19 +1,27 @@
 from config import *
 from twitter import action
-import tweepy
-from loguru import logger
+import schedule, time
 
-auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+def main():
+    tweets = API.user_timeline(screen_name=NANASE_TWITTER_NAME, tweet_mode="extended")
 
-api = tweepy.API(auth)
+    unseen_tweets = []
+    for tweet in tweets:
+        if NANASE_TWITTER_LAST_SEEN_ID == tweet.id:
+            break
+        else:
+            unseen_tweets.append(tweet)
 
-tweets = api.user_timeline(screen_name=NANASE_TWITTER, tweet_mode="extended", count=100)
+    if unseen_tweets:
+        # the first element is the last seen id
+        set_nanase_twitter_last_seen_id(unseen_tweets[0].id)
 
-for tweet in tweets:
-    # print(tweet.created_at, end=" ")
-    # print(tweet.id)
-    # print(tweet.full_text)
-    action(api.create_favorite, tweet.id)
-    action(api.retweet, tweet.id)
+        for tweet in unseen_tweets:
+            action(API.create_favorite, tweet.id, "favorite")
+            action(API.retweet, tweet.id, "retweet")
 
+if __name__ == '__main__':
+    schedule.every(1).hours.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
