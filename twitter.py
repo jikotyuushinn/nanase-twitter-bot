@@ -37,10 +37,8 @@ class TwitterClient(object):
         except tweepy.error.TweepError as e:
             logger.warning(f"{e}: {tweet_id}")
 
-    def favorite_tweets(self, tweets):
+    def favorite_and_retweet(self, tweets, filter_word=""):
         for tweet in tweets:
-            self._favorite_tweet(tweet.id)
-
-    def retweet_tweets(self, tweets):
-        for tweet in tweets:
-            self._retweet_tweet(tweet.id)
+            if filter_word in tweet.full_text:
+                self._favorite_tweet(tweet.id)
+                self._retweet_tweet(tweet.id)

@@ -1,6 +1,8 @@
-nanase_twitter:
-  last_seen_id: 1357524389638492160
-  name: nanase_andstaff
-work_related_twitter:
-- nonno_staff
-- gutan_ktv
+twitter:
+- nanase:
+    last_seen_id: 1357649206605828099
+    name: nanase_andstaff
+- nonno:
+    filter_word: 西野七瀬
+    last_seen_id: 1357647419471777792
+    name: nonno_staff
