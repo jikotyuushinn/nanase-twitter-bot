@@ -4,6 +4,7 @@ from twitter import TwitterClient
 def main():
     twitter_client = TwitterClient(NANASE_TWITTER_NAME)
     unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(NANASE_TWITTER_LAST_SEEN_ID)
+
     twitter_client.favorite_tweets(unseen_tweets)
     twitter_client.retweet_tweets(unseen_tweets)
 

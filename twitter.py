@@ -11,17 +11,16 @@ class TwitterClient(object):
 
     def __init__(self, twitter_user):
         self.auth = authenticate_twitter_app()
-        self.twitter_client = tweepy.API(self.auth, proxy="192.168.31.134:7890")
+        self.twitter_client = tweepy.API(self.auth)
         self.twitter_user = twitter_user
 
     def get_user_timeline_unseen_tweets(self, last_seen_id):
         unseen_tweets = []
         for tweet in tweepy.Cursor(self.twitter_client.user_timeline,
-                                   screen_name=self.twitter_user, tweet_mode="extended").items():
-            if last_seen_id == tweet.id:
-                break
-            else:
-                unseen_tweets.append(tweet)
+                                   screen_name=self.twitter_user,
+                                   since_id=last_seen_id,
+                                   tweet_mode="extended").items():
+            unseen_tweets.append(tweet)
         return unseen_tweets
 
     def _favorite_tweet(self, tweet_id):
