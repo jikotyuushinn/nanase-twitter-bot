@@ -3,13 +3,13 @@ from twitter import TwitterClient
 
 def twitter():
     for account in screen_data["twitter"]:
-        (key, value), = account.items()
-        twitter_client = TwitterClient(value["name"])
-        unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(value["last_seen_id"])
-        twitter_client.favorite_and_retweet(unseen_tweets, filter_word=value.get("filter_word", ""))
+        (_, details), = account.items()
+        twitter_client = TwitterClient(details["screen_name"])
+        unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(details["last_seen_id"])
+        twitter_client.favorite_and_retweet(unseen_tweets, filter_word=details.get("filter_word", ""))
 
         if unseen_tweets:
-            value["last_seen_id"] = unseen_tweets[0].id
+            details["last_seen_id"] = unseen_tweets[0].id
             update_last_seen_id(screen_data)
 
 def main():
