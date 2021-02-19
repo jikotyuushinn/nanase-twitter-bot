@@ -6,9 +6,9 @@ def twitter():
         (_, details), = account.items()
         twitter_client = TwitterClient(details["screen_name"])
         unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(details["last_seen_id"])
-        twitter_client.favorite_and_retweet(unseen_tweets, filter_word=details.get("filter_word", ""))
+        is_succeeded = twitter_client.favorite_and_retweet(unseen_tweets, filter_word=details.get("filter_word", ""))
 
-        if unseen_tweets:
+        if unseen_tweets and is_succeeded:
             details["last_seen_id"] = unseen_tweets[0].id
             update_last_seen_id(screen_data)
 
