@@ -24,4 +24,4 @@ if __name__ == '__main__':
         "screen_name": "nonno_staff"
     }
     f = Firebase()
-    print(f.set("Twitter", "nonno", nonno))
+    f.set("Twitter", "nonno", nonno)
