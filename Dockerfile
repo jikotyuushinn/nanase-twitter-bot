@@ -4,4 +4,4 @@ RUN mkdir /app
 WORKDIR /app
 
 ADD . .
-RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+RUN pip install -r requirements.txt
