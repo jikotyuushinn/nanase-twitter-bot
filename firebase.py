@@ -10,12 +10,16 @@ class Firebase(object):
         cred = credentials.Certificate(cert)
         firebase_admin.initialize_app(cred)
         self.db = firestore.client()
+        self.collection = None
 
-    def get(self, collection, document):
-        self.db.collection(collection).document(document).get().to_dict()
+    def set_collection(self, collection):
+        self.collection = self.db.collection(collection)
 
-    def set(self, collection, document, account):
-        self.db.collection(collection).document(document).set(account)
+    def get(self, document):
+        return self.collection.document(document).get().to_dict()
+
+    def set(self, document, account: dict):
+        self.collection.document(document).set(account)
 
 if __name__ == '__main__':
     nonno = {
@@ -24,4 +28,6 @@ if __name__ == '__main__':
         "screen_name": "nonno_staff"
     }
     f = Firebase()
-    f.set("Twitter", "nonno", nonno)
+    f.set_collection("Twitter")
+    f.set("nonno", nonno)
+    print(f.get("nonno"))
