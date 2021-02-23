@@ -18,16 +18,5 @@ class Firebase(object):
     def get(self, document):
         return self.collection.document(document).get().to_dict()
 
-    def set(self, document, account: dict):
-        self.collection.document(document).set(account)
-
-if __name__ == '__main__':
-    nonno = {
-        "filter_word": "西野七瀬",
-        "last_seen_id": "1363847281406070784",
-        "screen_name": "nonno_staff"
-    }
-    f = Firebase()
-    f.set_collection("Twitter")
-    f.set("nonno", nonno)
-    print(f.get("nonno"))
+    def update(self, document, account: dict):
+        self.collection.document(document).update(account)

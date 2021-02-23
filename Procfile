@@ -1,1 +1,1 @@
-worker: python firebase.py
+worker: python main.py
