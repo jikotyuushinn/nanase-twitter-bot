@@ -6,6 +6,7 @@ def twitter():
     docs = f.get_stream()
 
     for doc in docs:
+        doc_id = doc.id
         doc = doc.to_dict()
         twitter_client = TwitterClient(doc["screen_name"])
         unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(doc["last_seen_id"])
@@ -14,7 +15,7 @@ def twitter():
 
         if unseen_tweets and is_succeeded:
              doc["last_seen_id"] = unseen_tweets[0].id
-             f.update(doc.id, doc)
+             f.update(doc_id, doc)
 
 def main():
     twitter()
