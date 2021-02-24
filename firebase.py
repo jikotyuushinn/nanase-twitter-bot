@@ -12,9 +12,11 @@ class Firebase(object):
         self._db = firestore.client()
         self._collection = self._db.collection(collection)
 
+    # get all docs
     def get_stream(self):
         return self._collection.stream()
 
+    # get one doc
     def get(self, document):
         return self._collection.document(document).get().to_dict()
 
