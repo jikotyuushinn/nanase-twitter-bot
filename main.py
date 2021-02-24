@@ -14,7 +14,7 @@ def twitter():
                                                            filter_word=doc.get("filter_word", ""))
 
         if unseen_tweets and is_succeeded:
-             doc["last_seen_id"] = unseen_tweets[0].id
+             doc["last_seen_id"] = str(unseen_tweets[0].id)
              firebase.update(doc_id, doc)
 
 def main():
