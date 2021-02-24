@@ -5,18 +5,18 @@ import json
 
 class Firebase(object):
 
-    def __init__(self):
+    def __init__(self, collection):
         cert = json.loads(FIREBASE_CREDENTIALS, strict=False)
         cred = credentials.Certificate(cert)
         firebase_admin.initialize_app(cred)
-        self.db = firestore.client()
-        self.collection = None
+        self._db = firestore.client()
+        self._collection = self._db.collection(collection)
 
-    def set_collection(self, collection):
-        self.collection = self.db.collection(collection)
+    def get_stream(self):
+        return self._collection.stream()
 
     def get(self, document):
-        return self.collection.document(document).get().to_dict()
+        return self._collection.document(document).get().to_dict()
 
     def update(self, document, account: dict):
-        self.collection.document(document).update(account)
+        self._collection.document(document).update(account)
