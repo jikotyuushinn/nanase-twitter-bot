@@ -12,12 +12,10 @@ def twitter():
         unseen_tweets = twitter_client.get_user_timeline_unseen_tweets(doc["last_seen_id"])
 
         if unseen_tweets:
-            is_succeeded = twitter_client.favorite_and_retweet(unseen_tweets,
-                                                               filter_word=doc.get("filter_word", ""))
-
-            if is_succeeded:
-                doc["last_seen_id"] = str(unseen_tweets[0].id)
-                firebase.update(doc_id, doc)
+            twitter_client.favorite_and_retweet(unseen_tweets,
+                                                filter_word=doc.get("filter_word", ""))
+            doc["last_seen_id"] = str(unseen_tweets[0].id)
+            firebase.update(doc_id, doc)
 
 def main():
     twitter()

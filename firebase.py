@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import firestore, credentials
 from config import FIREBASE_CREDENTIALS
 import json
+from loguru import logger
 
 class Firebase(object):
 
@@ -21,4 +22,8 @@ class Firebase(object):
         return self._collection.document(document).get().to_dict()
 
     def update(self, document, account: dict):
-        self._collection.document(document).update(account)
+        try:
+            self._collection.document(document).update(account)
+            logger.info(f"update the doc {account['screen_name']}")
+        except ValueError as e:
+            logger.warning(f"{account['screen_name']}: {e}")

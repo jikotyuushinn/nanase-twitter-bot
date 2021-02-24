@@ -27,25 +27,18 @@ class TwitterClient(object):
         try:
             self.twitter_client.create_favorite(tweet_id)
             logger.info(f"favorite the status: {tweet_id}")
-            return True
         except tweepy.error.TweepError as e:
             logger.warning(f"{e}: {tweet_id}")
-            return False
 
     def _retweet_tweet(self, tweet_id):
         try:
             self.twitter_client.retweet(tweet_id)
             logger.info(f"retweet the status: {tweet_id}")
-            return True
         except tweepy.error.TweepError as e:
             logger.warning(f"{e}: {tweet_id}")
-            return False
 
-    def favorite_and_retweet(self, tweets, filter_word=""):
+    def favorite_and_retweet(self, tweets, filter_word):
         for tweet in tweets:
             if filter_word in tweet.full_text:
-                # ensure to both retweet and favorite
-                if not (self._favorite_tweet(tweet.id) and self._retweet_tweet(tweet.id)):
-                    return False
-
-        return True
+                self._favorite_tweet(tweet.id)
+                self._retweet_tweet(tweet.id)
