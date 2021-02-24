@@ -2,8 +2,8 @@ from twitter import TwitterClient
 from firebase import Firebase
 
 def twitter():
-    f = Firebase("Twitter")
-    docs = f.get_stream()
+    firebase = Firebase("Twitter")
+    docs = firebase.get_stream()
 
     for doc in docs:
         doc_id = doc.id
@@ -15,7 +15,7 @@ def twitter():
 
         if unseen_tweets and is_succeeded:
              doc["last_seen_id"] = unseen_tweets[0].id
-             f.update(doc_id, doc)
+             firebase.update(doc_id, doc)
 
 def main():
     twitter()
