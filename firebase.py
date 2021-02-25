@@ -26,4 +26,4 @@ class Firebase(object):
             self._collection.document(document).update(account)
             logger.info(f"update the doc {account['screen_name']}")
         except ValueError as e:
-            logger.warning(f"{account['screen_name']}: {e}")
+            logger.error(f"{account['screen_name']}: {e}")

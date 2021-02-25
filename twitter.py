@@ -15,27 +15,27 @@ class TwitterClient(object):
         self.twitter_user = twitter_user
 
     def get_user_timeline_unseen_tweets(self, last_seen_id):
-        unseen_tweets = []
-        for tweet in tweepy.Cursor(self.twitter_client.user_timeline,
-                                   screen_name=self.twitter_user,
-                                   since_id=last_seen_id,
-                                   tweet_mode="extended").items():
-            unseen_tweets.append(tweet)
-        return unseen_tweets
+        return list(
+            tweepy.Cursor(self.twitter_client.user_timeline,
+                          screen_name=self.twitter_user,
+                          since_id=last_seen_id,
+                          tweet_mode="extended")
+                .items()
+        )
 
     def _favorite_tweet(self, tweet_id):
         try:
             self.twitter_client.create_favorite(tweet_id)
             logger.info(f"favorite the status: {tweet_id}")
         except tweepy.error.TweepError as e:
-            logger.warning(f"{e}: {tweet_id}")
+            logger.error(f"fail to favorite {tweet_id}: {e}")
 
     def _retweet_tweet(self, tweet_id):
         try:
             self.twitter_client.retweet(tweet_id)
             logger.info(f"retweet the status: {tweet_id}")
         except tweepy.error.TweepError as e:
-            logger.warning(f"{e}: {tweet_id}")
+            logger.error(f"fail to retweet {tweet_id}: {e}")
 
     def favorite_and_retweet(self, tweets, filter_word):
         for tweet in tweets:
